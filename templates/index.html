@@ -4,39 +4,87 @@
 <head>
     <meta charset="UTF-8">
     <title>Блог</title>
-    <meta name="keywords" content="Ключевые слова, и, фразы, через, запятую">
-    <meta name="description" content="Описание контента страницы, 1-2 предложения.">
 
-     <!-- Compiled and minified CSS -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+         <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" 
+    href="{% static 'materialize-v1.0.0/materialize/css/materialize.min.css' %}"  
+    media="screen,projection"/>
 </head>
 <body>
     <header>
-        <nav>
-            <div class="nav-wrapper white">
-                <div class="row">
-                    <div class="col s2">
-                        <div class="row">
-                            <a href="/" class="col s6 offset-s2 brand-logo blue-text text-darken-2">kodland</a>
-                            <span class="col s3 offset-s1 black-text">
-                                Блог
-                            </span>                        
-                        </div>                        
+        <div class="row">
+                    <div class="col s3"> 
+                        <div class="valign-wrapper">
+                            <a href="/" class="brand-logo"><img src="{% static 'icons/Logo_Kodland.png' %}"></a>
+                            <span class="header-name">{{header_name}}</span>
+                        </div>
                     </div>
-                    <div class="col s1 offset-s7">
-                        <p class="blue-text text-darken-2">контент</p>
+                    <div class="valign-wrapper col s2 offset-s7">          
+                        <a href="/add"><img class="header-img" src="{% static 'icons/email.png' %}" height="75%" width="75%"  alt=""></a>
+                        <a href="#"><img class="header-img" src="{% static 'icons/Group.png' %}" height="75%" width="75%" alt=""></a>
+                        <a href="#"><img class="header-img" src="{% static 'icons/logout.png' %}" height="75%" width="75%" alt=""></a>
                     </div>
-                </div>
-            </div>
-        </nav>
+        </div>
     </header>
+    <hr>
 
 
     <div class="container">
         <div class="row">
             <div class="col s12">
-                <p>контент</p>
+                <div class="big-publication">
+                    <div class="row">
+                        <div class="col s6">
+                            <div class="">
+                                <span class="pink-text">NEW</span>
+                                <a></a>
+                            </div>                
+                            <h4 class="blue-text text-accent-4">{{fst_publication.Name}}</h4>
+                            <div class="pub-text">{{fst_publication.Text}}</div>
+                        </div>
+                        <div class="col s6">
+                            <div class="">
+                                <img src="{{fst_publication.Image.url}}" height="100%" width="100%">
+                            </div>
+                        </div>
+                    </div>                    
+                </div>                
             </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col s11">
+                <h5 class="blue-text text-accent-4">Другие публикации</h5>
+            </div>
+            <div class="col s1"><!--Иконка фильтра--></div>
+        </div>
+        <div class="row">
+                {% for publication in publications %}
+                <div class="col s4">
+                    <div class="card white">
+                        <div class="card-content">
+                            <div class="date grey-text">{{publication.DateOfPublic}}</div>
+                            <img class="card-img" src="{{publication.Image.url}}" height="75%" width="75%">
+                            <h6 class="rubric black-text">{{publication.rubric.Name}}</span>
+                            <h6 class="title blue-text text-accent-4">{{publication.Name}}</h6>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% if range is None %}
+                {% else %}
+                {% for i in range %}
+                <div class="col s4">
+                    <div class="card white">
+                        <div class="card-content">
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
         </div>
     </div>
 

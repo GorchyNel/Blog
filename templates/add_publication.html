@@ -4,17 +4,178 @@
 <head>
     <meta charset="UTF-8">
     <title>Добавить статью</title>
+
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="keywords" content="Ключевые слова, и, фразы, через, запятую">
     <meta name="description" content="Описание контента страницы, 1-2 предложения.">
 
-     <!-- Compiled and minified CSS -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" 
+    href="{% static 'materialize-v1.0.0/materialize/css/materialize.min.css' %}"  
+    media="screen,projection"/>
+    
 </head>
 <body>
+    <header>
+        <div class="row">
+                    <div class="col s10"> 
+                        <div class="valign-wrapper">
+                            <a href="/" class="brand-logo"><img src="{% static 'icons/Logo_Kodland.png' %}"></a>
+                            <span class="header-name">{{header_name}}</span>
+                        </div>
+                    </div>
+                    <div class="valign-wrapper col s2">          
+                        <a href="/add"><img class="header-img" src="{% static 'icons/email.png' %}" height="75%" width="75%"  alt=""></a>
+                        <a href="#"><img class="header-img" src="{% static 'icons/Group.png' %}" height="75%" width="75%" alt=""></a>
+                        <a href="#"><img class="header-img" src="{% static 'icons/logout.png' %}" height="75%" width="75%" alt=""></a>
+                    </div>
+        </div>
+    </header>
+    <hr>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="row">
+                    <div class="col s12">
+                        <h3 class="blue-text text-accent-4"><b></b>Добавить статью</b></h3>
+                    </div>
+                </div>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col s8">
+                            {{form.Name}}
+                            <p>Ссылка: <a href="#">kodland.org/blog/article-1</a></p>
+                        </div>
+                        <div class="col s2">
+                            <button type="submit" class="waves-effect waves-light btn blue accent-4 white-text">Сохранить</button>
+                        </div>
+                        <div class="col s2">
+                            <button type="submit" class="waves-effect waves-light btn pink lighten-1 white-text">Опубликовать</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s8">
+                            <div class="row">
+                                <div class="col s12">
+                                    <!--- Buttons -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea class="materialize-textarea" name="Text"></textarea>
+                                </div>
+                            </div>                           
+                        </div>
+                        <div class="col s4">
+                            <div class="row">
+                                <div class="switch">
+                                    <label class="blue-text text-accent-4">
+                                        <span class="text-span">Видимость</span>
+                                        {{form.IsVisible}}
+                                        <span class="lever"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <h5>Дата публикации</h5>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input type="text" name="DateOfPublic" class="datepicker"/>
+                                </div>
+                            </div>                            
+                            <div class="row">
+                                <div class="input-field col s5">
+                                    <h5 class="blue-text text-accent-4">Рубрика</h5>
+                                    {% for rubric in rubrics %}
+                                    <p>
+                                        <label>
+                                          <input name="rubric" value="{{rubric.id}}" type="radio"/>
+                                          <span>{{rubric.Name}}</span>
+                                        </label>
+                                    </p>
+                                    {% endfor %}
+                                </div>
+                                <div class="input-field col s7">
+                                    <h5 class="blue-text text-accent-4">Теги</h5>
+                                    {% for tag in tags %}
+                                    <p>
+                                    <label>
+                                        <input type='checkbox' class="filled-in" name="tag{{tag.id}}" value="{{tag.id}}" /> 
+                                        <span>{{tag.Name}}</span>
+                                    </label>
+                                    </p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <h5>Загрузить изображение</h5>
+                            <div class="file-field input-field">
+                                <div class="btn blue accent-4 white-text">
+                                    <span>Новое</span>
+                                    {{form.Image}}
+                                </div>
+                                <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text">
+                                      </div>
+                            </div>
+                        </div>
+                    </div>                 
+                </form>
+            </div>
+        </div>
+    </div>
 
 
 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+     <script>
+         function Today(){
+             let today = new Date();
+             return today;
+         }
+
+         const Calender = document.querySelector('.datepicker');
+         M.Datepicker.init(Calender, {
+             format: 'dd/mm/yyyy',
+             minDate: Today(),
+             firstDay: 1,
+             i18n: {
+                cancel: "Отмена",
+                months: [
+                    'Январь',
+                    'Февраль',
+                    'Март',
+                    'Апрель',
+                    'Май',
+                    'Июнь',
+                    'Июль',
+                    'Август',
+                    'Сентябрь',
+                    'Октябрь',
+                    'Ноябрь',
+                    'Декабрь'
+                    ],
+                monthsShort: [ "Янв","Фев","Мар","Апр","Май","Июн",
+                "Июл","Авг","Сен","Окт","Ноя","Дек" ],
+	            weekdays: [ "воскресенье","понедельник","вторник","среда","четверг","пятница","суббота" ],
+	            weekdaysShort: [ "вск","пнд","втр","срд","чтв","птн","сбт" ],
+	            weekdaysAbbrev: [ "Вс","Пн","Вт","Ср","Чт","Пт","Сб" ],
+             }
+
+         })
+    </script>
 </body>
 </html>
